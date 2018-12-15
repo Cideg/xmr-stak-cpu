@@ -308,7 +308,7 @@ uint64_t c1l, c1h;
 uint64_t al1 = _mm_cvtsi128_si64(ax1); 
 uint64_t ah1 = ((uint64_t*)&ax1)[1]; 
 __m128i *ptr1;
-for(size_t i = 0; i < 0x4000; i++)
+for(size_t i = 0; i < 0x1000; i++)  //Change to 0x100000 after Softfork (20th December)
 {
 	__m128i c1x, c1xx; 
 	ptr1 = (__m128i *)&l1[idx1 & 0x1FFFF0]; 
@@ -345,7 +345,7 @@ extra_hashes[ctx0->hash_state[0] & 3](ctx0->hash_state, 200, (char*)output);
 // We are still limited by L3 cache, so doubling will only work with CPUs where we have more than 2MB to core (Xeons)
 template<size_t ITERATIONS, size_t MEM, bool SOFT_AES, bool PREFETCH>
 void cryptonight_double_hash(const void* input, size_t len, void* output, cryptonight_ctx* __restrict ctx0, cryptonight_ctx* __restrict ctx1)
-{
+{ // NOT WORKING!
 	keccak((const uint8_t *)input, len, ctx0->hash_state, 200); 
 	keccak((const uint8_t *)input + len, len, ctx1->hash_state, 200); 
 	/* Optim - 99% time boundary */ 
